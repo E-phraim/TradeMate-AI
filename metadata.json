@@ -1,0 +1,6 @@
+{
+  "name": "TradeMate AI",
+  "description": "Retro-futurist 'No-App ERP' for Nigerian market traders. Chat with Gemini in Pidgin to manage sales, inventory, and debts.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": []
+}

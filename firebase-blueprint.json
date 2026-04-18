@@ -1,0 +1,105 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "Information about the trader",
+      "type": "object",
+      "properties": {
+        "phoneNumber": { "type": "string" },
+        "businessName": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["phoneNumber", "businessName"]
+    },
+    "Message": {
+      "title": "Chat Message",
+      "description": "Conversation between trader and AI",
+      "type": "object",
+      "properties": {
+        "text": { "type": "string" },
+        "sender": { "type": "string", "enum": ["user", "ai"] },
+        "voiceUrl": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "userId": { "type": "string" },
+        "extraction": {
+          "type": "object",
+          "properties": {
+            "intent": { "type": "string" },
+            "entities": {
+              "type": "object",
+              "properties": {
+                "item": { "type": "string" },
+                "quantity": { "type": "number" },
+                "price": { "type": "number" },
+                "customer": { "type": "string" },
+                "amount": { "type": "number" }
+              }
+            }
+          }
+        }
+      },
+      "required": ["sender", "timestamp", "userId"]
+    },
+    "Transaction": {
+      "title": "Business Transaction",
+      "description": "A recorded sale or expense",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "type": { "type": "string", "enum": ["sale", "expense"] },
+        "item": { "type": "string" },
+        "quantity": { "type": "number" },
+        "amount": { "type": "number" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "type", "amount", "timestamp"]
+    },
+    "Inventory": {
+      "title": "Inventory Item",
+      "description": "Stock tracking",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "name": { "type": "string" },
+        "stock": { "type": "number" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "name", "stock"]
+    },
+    "Debt": {
+      "title": "Debt Record",
+      "description": "Money owed to/by the trader",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "customer": { "type": "string" },
+        "amount": { "type": "number" },
+        "type": { "type": "string", "enum": ["owe_me", "i_owe"] },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "customer", "amount", "type", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Trader profiles"
+    },
+    "/messages/{messageId}": {
+      "schema": "Message",
+      "description": "Chat history"
+    },
+    "/transactions/{transactionId}": {
+      "schema": "Transaction",
+      "description": "Business logs"
+    },
+    "/inventory/{itemId}": {
+      "schema": "Inventory",
+      "description": "Stock levels"
+    },
+    "/debts/{debtId}": {
+      "schema": "Debt",
+      "description": "Debt tracking"
+    }
+  }
+}
